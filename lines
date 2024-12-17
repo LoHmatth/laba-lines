@@ -1,0 +1,43 @@
+from collections import Counter
+import string
+
+def build_frequency_dictionary(text, alphabet):
+    # Фильтруем текст, оставляя только символы заданного алфавита
+    filtered_text = [char for char in text.lower() if char in alphabet]
+    
+    # Подсчитываем вхождения каждой буквы
+    letter_counts = Counter(filtered_text)
+    
+    # Общее количество букв в тексте
+    total_letters = sum(letter_counts.values())
+    
+    # Вычисляем процентное соотношение
+    frequency_dict = {letter: (count / total_letters) * 100 for letter, count in letter_counts.items()}
+    
+    return frequency_dict
+
+def main():
+    # Пользователь вводит текст
+    text = input("Введите текст: ")
+    
+    # Выбор алфавита (русский или английский)
+    alphabet_choice = input("Выберите алфавит (русский/английский): ").strip().lower()
+    
+    if alphabet_choice == "русский":
+        alphabet = "абвгдежзийклмнопрстуфхцчшщъыьэюя"
+    elif alphabet_choice == "английский":
+        alphabet = string.ascii_lowercase
+    else:
+        print("Неверный выбор алфавита!")
+        return
+    
+    # Построение частотного словаря
+    frequency_dict = build_frequency_dictionary(text, alphabet)
+    
+    # Вывод результатов
+    print("\nЧастотный словарь:")
+    for letter, frequency in sorted(frequency_dict.items(), key=lambda x: x[1], reverse=True):
+        print(f"{letter}: {frequency:.2f}%")
+
+if __name__ == "__main__":
+    main()
